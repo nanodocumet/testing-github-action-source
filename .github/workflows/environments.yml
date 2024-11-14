@@ -1,0 +1,26 @@
+name: Hugo S3
+
+on:
+  workflow_dispatch:
+    inputs:
+      hugo_version:
+        description: 'What version of Hugo to use'
+        required: false
+        default: 'v0.136.5'
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@main
+
+      - name: Deploy site
+        uses: nanodocumet/testing-github-actions/main
+        env:
+          HUGO_VERSION: ${{ inputs.hugo_version }}
+
