@@ -16,11 +16,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set hugo_version output
+        id: hugo_version
+        run: |
+          USER_INPUT=${{ github.event.inputs.hugo_version }}
+          echo "value=${USER_INPUT:-"v0.136.5"}" >> "$GITHUB_OUTPUT"
+
       - name: Check out main
         uses: actions/checkout@main
 
       - name: Deploy site
         uses: nanodocumet/testing-github-actions@main
         env:
-          HUGO_VERSION: ${{ inputs.hugo_version }}
+          HUGO_VERSION: ${{ steps.hugo_version.outputs.value }}
 
